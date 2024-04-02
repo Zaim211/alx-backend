@@ -9,6 +9,7 @@ class LIFOCache(BaseCaching):
     def __init__(self):
         """ Initialize the class with the parent's init method """
         super().__init__()
+        self.order = []
 
     def put(self, key, item):
         """ Cache a key-value pair """
@@ -16,13 +17,17 @@ class LIFOCache(BaseCaching):
             pass
         else:
             if len(self.cache_data) >= BaseCaching.MAX_ITEMS \
-                    and key not in self.cache_data.keys():
-                last_key, last_value = self.cache_data.popitem()
-                print('DISCARD: {}'.format(last_key))
-        self.cache_data[key] = item
+                    and key not in self.cache_data:
+                print('DISCARD: {}'.format(self.order[-1]))
+                del self.cache_data[self.order[-1]]
+                del self.order[-1]
+            if key in self.order:
+                del self.order[self.order.index(key)]
+            self.order.append(key)
+            self.cache_data[key] = item
 
     def get(self, key):
         """ Return the value linked to a given key, or None """
         if key is None or key not in self.cache_data.keys():
-            return None
-        return self.cache_data.get(key)
+            return self.cache_data[key]
+        return None
