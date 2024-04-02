@@ -7,7 +7,7 @@ BaseCaching = __import__('base_caching').BaseCaching
 class BasicCache(BaseCaching):
     """ caching system """
     def __init__(self):
-        """ """
+        """Initialize the class using the parent class __init__ method"""
         BaseCaching.__init__(self)
 
     def put(self, key, item):
