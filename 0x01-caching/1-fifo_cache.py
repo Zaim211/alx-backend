@@ -16,7 +16,7 @@ class FIFOCache(BaseCaching):
             pass
         else:
             length = len(self.cache_data)
-            if length > BaseCaching.MAX_ITEMS \
+            if length >= BaseCaching.MAX_ITEMS \
                     and key not in self.cache_data.keys():
                 first_in = next(iter(self.cache_data.keys()))
                 del self.cache_data[first_in]
