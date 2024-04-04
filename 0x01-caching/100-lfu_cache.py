@@ -1,20 +1,24 @@
 #!/usr/bin/env python3
-""" """
+""" LFU Caching """
 
 BaseCaching = __import__('base_caching').BaseCaching
 
 
 class LFUCache(BaseCaching):
-    """ """
+    """ FIFOCache defines a FIFO caching system """
 
     def __init__(self):
-        """ """
+        """ Initialize the class using the parent class __init__ method """
         super().__init__()
         self.order = []
         self.freq = {}
 
     def put(self, key, item):
-        """ """
+        """ Store a key-value pair
+        Args:
+            Key
+            Item
+        """
         if key is None or item is None:
             pass
         else:
@@ -22,13 +26,13 @@ class LFUCache(BaseCaching):
             if length >= BaseCaching.MAX_ITEMS and key not in self.cache_data:
                 lfucache = min(self.freq.values())
                 lfucache_keys = []
-                for keys, value in self.freq.items():
+                for k, value in self.freq.items():
                     if value == lfucache:
-                        lfucache_keys.append(keys)
+                        lfucache_keys.append(k)
                 if len(lfucache_keys) > 1:
                     count = {}
-                    for keys in lfucache_keys:
-                        count[keys] = self.order.index(keys)
+                    for k in lfucache_keys:
+                        count[k] = self.order.index(k)
                     discarded_keys = min(count.values())
                     discarded_keys = self.order[discarded_keys]
                 else:
@@ -49,7 +53,7 @@ class LFUCache(BaseCaching):
             self.cache_data[key] = item
 
     def get(self, key):
-        """ """
+        """ return the value in self.cache_data linked to key """
         if key is not None and key in self.cache_data.keys():
             del self.order[self.order.index(key)]
             self.order.append(key)
