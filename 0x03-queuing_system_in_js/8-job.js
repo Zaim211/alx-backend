@@ -4,7 +4,7 @@ const queue = createQueue();
 
 export default function createPushNotificationsJobs(jobs, queue) {
   if (!Array.isArray(jobs)) {
-    throw Error('createPushNotificationsJobs');
+    throw Error('Jobs is not an array');
   }
 
   jobs.forEach((data) => {

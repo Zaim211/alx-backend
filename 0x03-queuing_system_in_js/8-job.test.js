@@ -18,8 +18,8 @@ describe('Test function createPushNotificationJobs', function() {
     queue.testMode.exit();
   });
 
-  it('check if jobs is not an array', () => {
-    expect(() => createPushNotificationsJobs('job', queue)).to.throw(Error, 'Jobs is not an array');
+  it('check if jobs is not an array', function() {
+    expect((() => createPushNotificationsJobs('test', queue))).to.throw(Error, 'Jobs is not an array');
   });
 
   it('Test creation of jobs', function() {
