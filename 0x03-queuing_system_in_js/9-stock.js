@@ -6,6 +6,7 @@ const app = express();
 
 const client = createClient();
 
+app.use(express.json());
 
 client.on('connect', function() {
   console.log('Redis client connected to the server');
@@ -15,7 +16,7 @@ client.on('error', function (err) {
   console.log(`Redis client not connected to the server: ${err}`);
 });
 
-const get = promisify(redisClient.get).bind(redisClient);
+const get = promisify(client.get).bind(client);
 
 const listProducts = [
   {
@@ -53,15 +54,15 @@ function reserveStockById(itemId, stock) {
 }
 
 async function getCurrentReservedStockById(itemId) {
-  const stock = await get(iteId);
+  const stock = await get(itemId);
   return stock;
 }
 
-app.get('/list_products', (req, res) => {
+app.get('/list_products', function(req, res) {
   res.json(listProducts);
 });
 
-app.get('/list_products/:itemId', async function(req, res) => {
+app.get('/list_products/:itemId', async function(req, res) {
   const itemId = req.params.itemId;
   const item = getItemById(parseInt(itemId));
 
